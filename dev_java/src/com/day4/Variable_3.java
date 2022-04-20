@@ -1,4 +1,4 @@
-package com.basic;
+package com.day4;
 
 public class Variable_3 {
 	int age = 20;
