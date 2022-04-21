@@ -1,0 +1,35 @@
+package swing.template;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+// BorderLayoutApp.java 소스는 하나인데 
+// 클래스는 두 개가 만들어 져요. 
+// BorderLayoutView.class
+// BorderLayoutApp.class
+class BorderLayoutView{
+	JFrame jf = new JFrame();
+	JButton jbtn_north = new JButton("북쪽");
+	JButton jbtn_south = new JButton("남쪽");
+	int width = 500;
+	int height = 400;
+	public void initDisplay() {
+		// 실행문
+		System.out.println("initDisplay 호출 성공");
+		jf.add("North", jbtn_north);
+		jf.add("South", jbtn_south);
+		jf.setSize(width, height);
+		jf.setVisible(true);
+	} 
+}
+public class BorderLayoutApp {
+
+	public static void main(String[] args) {
+		//insert here
+		// 클래스타입 변수명(주소번지출력) = new 클래스명();
+		BorderLayoutView blView = new BorderLayoutView();
+		blView.initDisplay();//메소드 호출
+
+	}
+
+}
