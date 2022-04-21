@@ -1,5 +1,7 @@
 package swing.template;
 
+import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -19,6 +21,7 @@ class BorderLayoutView{
 	public void initDisplay() {
 		// 실행문
 		System.out.println("initDisplay 호출 성공");
+		jbtn_north.setBackground(Color.lightGray);
 		jf.add("North", jbtn_north);
 		jf.add("South", jbtn_south);
 		jf.add("Center", jbtn_center);
