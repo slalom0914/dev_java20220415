@@ -11,6 +11,9 @@ class BorderLayoutView{
 	JFrame jf = new JFrame();
 	JButton jbtn_north = new JButton("북쪽");
 	JButton jbtn_south = new JButton("남쪽");
+	JButton jbtn_center = new JButton("중앙");
+	JButton jbtn_east = new JButton("동쪽");
+	JButton jbtn_west = new JButton("서쪽");
 	int width = 500;
 	int height = 400;
 	public void initDisplay() {
@@ -18,6 +21,9 @@ class BorderLayoutView{
 		System.out.println("initDisplay 호출 성공");
 		jf.add("North", jbtn_north);
 		jf.add("South", jbtn_south);
+		jf.add("Center", jbtn_center);
+		jf.add("East", jbtn_east);
+		jf.add("West", jbtn_west);
 		jf.setSize(width, height);
 		jf.setVisible(true);
 	} 
