@@ -10,8 +10,12 @@ import javax.swing.JFrame;
 // BorderLayoutView.class
 // BorderLayoutApp.class
 class BorderLayoutView{
+	// 인스턴스화 하기 -  syntax-> 타입 인스턴스변수명 = new 생성할 클래스명();//  생성자
+	// 생긴 모양이 괄호가 있으면 셋중에 하나이다. 메소드, 생성자, Casting연산자 -  메소드 오버라이딩과 메소드 오버로딩
 	JFrame jf = new JFrame();
-	JButton jbtn_north = new JButton("북쪽");
+	// 상수로 되어 있는 것들을 변수로 바꿔보자
+	String send = "전송";
+	JButton jbtn_north = new JButton(send);
 	JButton jbtn_south = new JButton("남쪽");
 	JButton jbtn_center = new JButton("중앙");
 	JButton jbtn_east = new JButton("동쪽");
@@ -21,8 +25,10 @@ class BorderLayoutView{
 	public void initDisplay() {
 		// 실행문
 		System.out.println("initDisplay 호출 성공");
-		jbtn_north.setBackground(Color.lightGray);
-		jf.add("North", jbtn_north);
+		jbtn_north.setBackground(Color.red);
+		// 버튼을 배치할 위치 정보를 담는 변수 선언
+		String north = "North";
+		jf.add(north, jbtn_north);
 		jf.add("South", jbtn_south);
 		jf.add("Center", jbtn_center);
 		jf.add("East", jbtn_east);
