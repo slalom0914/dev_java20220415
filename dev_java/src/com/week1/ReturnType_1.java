@@ -2,6 +2,13 @@ package com.week1;
 
 public class ReturnType_1 {
 	String login(String mem_id, String mem_pw) {
+		String db_id = "tomato";
+		String db_pw = "124";
+		if(mem_id.equals(db_id)) {
+			System.out.println("아이디가 존재합니다.");
+		}else {
+			
+		}
 		String name = "이순신";
 		return name;
 	}
