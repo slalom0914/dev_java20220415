@@ -15,10 +15,10 @@ public class Overloading {
 	// 파라미터 갯수가 2개인게 14번라인에 있지만 
 	public void test(int i, String str) {}
 	// 위 7번 라인에 선언된 메소드와 중복 선언으로 에러발생함
-	public void test(int i) {}
+	public void test(double d) {}
 	// 파라미터가 한 개이면서 동시에 타입이 int메소드가 7번에 있어서
 	// 아래 return타입만 바뀐 메소드는 중복선언으로 봐서 에러발생함
-	public int test(int i) {return 0;}
+	public int test() {return 0;}
 	
 }
 
