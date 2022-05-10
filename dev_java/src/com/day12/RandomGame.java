@@ -4,6 +4,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class RandomGame {
+	// static이 있는 메소드에 대해서는 인스턴스화 없이
+	// 클래스타입.메소드명으로 호출이 가능함
 	public static void gameStart() {
 		// 임의의 숫자를 채번하는 메소드를 제공하는 클래스 임 - 0.0~1.0
         Random r = new Random();
