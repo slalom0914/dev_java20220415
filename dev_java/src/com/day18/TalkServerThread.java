@@ -22,7 +22,7 @@ public class TalkServerThread extends Thread {
 			ois = new ObjectInputStream(client.getInputStream());
 			//100#nickName
 			String msg = (String)ois.readObject();
-			oos.writeObject(msg);
+			//oos.writeObject(msg);
 			StringTokenizer st = new StringTokenizer(msg,"#");
 			st.nextToken();//100
 			nickName = st.nextToken();

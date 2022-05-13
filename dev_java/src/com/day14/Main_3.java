@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
+
+import backend.thread.TimeClient;
+
 import java.util.*;
 import java.util.List;
 // 메인에서 입력 혹은 수정 혹은 상세보기라는 3가지 업무에 대해서 Dialog_3 하나의 클래스를
@@ -18,6 +21,7 @@ public class Main_3 extends JFrame implements ActionListener{
     private JButton btnDelete = new JButton("삭제");
     private JButton btnSelect = new JButton("조회");
     private JButton btnDetail = new JButton("상세보기");
+    JLabel jlb_timer = new JLabel("현재시간",JLabel.CENTER);
     Dialog_3 dialog = new Dialog_3();
     static Main_3 abook = null;
     public Main_3() {
@@ -34,9 +38,12 @@ public class Main_3 extends JFrame implements ActionListener{
        this.add(btnDelete);
        this.add(btnSelect);
        this.add(btnDetail);
+       this.add(jlb_timer);
        this.setTitle("메인 Ver1.0");
        this.setSize(700, 500);
        this.setVisible(true);
+       Thread t = new TimeClient(jlb_timer);
+       t.start();
    }
    public void refreshData() {
       System.out.println("refreshData 호출 성공");
