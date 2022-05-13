@@ -25,6 +25,12 @@ public class TalkClientThread extends Thread {
 						String nickName = st.nextToken();
 						tc.jta_display.append(nickName+"님이 입장하였습니다.\n");
 					} 
+					// 200#토마토#스터디할거야?
+					case 200:{
+						String nickName = st.nextToken();
+						String message = st.nextToken();
+						tc.jta_display.append("["+nickName+"]"+message+"\n");
+					}break;
 				}///// end of switch
 				
 			} catch (Exception e) {

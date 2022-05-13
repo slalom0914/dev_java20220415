@@ -49,6 +49,7 @@ public class TalkClient extends JFrame implements ActionListener {
 	}
 
 	public void initDisplay() {
+		jtf_msg.addActionListener(this);
 		// 사용자의 닉네임 받기
 		nickName = JOptionPane.showInputDialog("닉네임을 입력하세요.");
 		this.setLayout(new GridLayout(1, 2));
@@ -72,7 +73,25 @@ public class TalkClient extends JFrame implements ActionListener {
 		this.setSize(800, 550);
 		this.setVisible(true);
 	}
-
+	
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		System.out.println("이벤트");
+		// 이벤트가 감지되었을 때 감지된 이벤트 소스를 알기 위해서...
+		Object obj = ae.getSource();
+		// 사용자가 입력한 메시지를 읽어온다.
+		String msg = jtf_msg.getText();
+		// 스터디할까? 엔터친거니?
+		if(obj == jtf_msg) {
+			System.out.println("11");
+			try {
+				oos.writeObject(200+"#"+nickName+"#"+msg);
+				jtf_msg.setText("");
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
 	public static void main(String args[]) {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		TalkClient tc = new TalkClient();
@@ -102,9 +121,5 @@ public class TalkClient extends JFrame implements ActionListener {
 		}
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 
-	}
 }
