@@ -10,7 +10,7 @@ public class InetAddressEx {
 				iaddr.getHostName()); 
 		System.out.printf("호스트 IP 주소 : %s %n" , 
 				iaddr.getHostAddress()); 
-		iaddr = InetAddress.getByName("www.google.com"); 
+		iaddr = InetAddress.getByName("www.google6645645.com"); 
 		System.out.printf("호스트 이름 : %s %n" , 
 				iaddr.getHostName()); 
 		System.out.printf("호스트 IP 주소 : %s %n" , 

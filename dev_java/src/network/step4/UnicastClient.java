@@ -45,6 +45,6 @@ public class UnicastClient {
 		return tcpSocket;
 	}
 	public static void main(String args[]) throws Exception{
-		new UnicastClient("localhost", 3000);
+		new UnicastClient("192.168.40.3", 3000);
 	}
 }

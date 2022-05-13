@@ -28,6 +28,43 @@ public class NansuJumsu {
 			tot = tot + jumsu[j];
 		}
 		System.out.println("총점 ===> "+tot);
-	}
+		// 평균 구하기
+		d_avg = tot/5.0;
+		System.out.println("평균 ===> "+d_avg);
+		//석차 구하기
+		int rank[] = {1,1,1,1,1};
+		for(int i=0;i<jumsu.length;i++) {
+			for(int j=0;j<jumsu.length;j++) {
+				if(jumsu[i] < jumsu[j]) {
+					rank[i]++;
+				}
+			}
+		}
+		for(int rnk:rank) {
+			System.out.println(rnk);
+		}
+	}// end of main
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
