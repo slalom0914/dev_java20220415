@@ -39,7 +39,7 @@ public class TimeClient extends Thread {
 			while (true) {
 				timeStr = ois.readObject().toString();
 				System.out.println(timeStr);
-				label.setText(timeStr);
+				//label.setText(timeStr);
 				// Thread.yield();
 				try {
 					Thread.sleep(1000);

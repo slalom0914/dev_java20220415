@@ -37,8 +37,8 @@ public class TimeServer extends Thread {
 			// 서버는 24시간 기동해야 하므로 반복문에 true로 처리 하였음
 			while (true) {
 				// 클라이언트측에 현재 시간 정보를 쓰는 메소드 호출임
-//				oos.writeObject(getTimeStr());
-				oos.writeObject("111");
+				oos.writeObject(getTimeStr());
+//				oos.writeObject("111");
 				try {
 					// 밀리세크 단위 이므로 1000이 1초를 의미함
 					sleep(1000);
