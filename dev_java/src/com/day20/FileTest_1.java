@@ -9,7 +9,10 @@ public class FileTest_1 {
 	public static void main(String[] args) {
 		FileWriter fw = null;
 		try {
-			fw = new FileWriter("C:\\Users\\user1\\git\\dev_java20220415\\dev_java\\src\\com\\day20\\log.txt");
+			// 2번째 파라미터 true가 없으면 새로 파일이 만들어진다.
+			// 만일 기존에 파일에 알파벳을 추가하려면 꼭 추가하자
+			fw = new FileWriter
+					("C:\\Users\\user1\\git\\dev_java20220415\\dev_java\\src\\com\\day20\\log.txt", true);
 			fw.write(65);// a
 			fw.write(97);// a
 		} catch (FileNotFoundException fe) {
