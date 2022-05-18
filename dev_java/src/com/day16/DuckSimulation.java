@@ -12,6 +12,12 @@ public class DuckSimulation {
 		myDuck = new RubberDuck();
 		myDuck.display();
 		myDuck.performFly();
+		WoodDuck herDuck = new WoodDuck();
+		herDuck.display();
+		herDuck.performFly();
+		herDuck = (WoodDuck)myDuck;
+		herDuck.display();
+		//myDuck = herDuck;
 	}
 
 }
