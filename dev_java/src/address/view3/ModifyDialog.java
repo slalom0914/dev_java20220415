@@ -193,9 +193,7 @@ class ModifyDialog extends JDialog {
 	private void setEditable(boolean e) {
 		txtName.setEditable(e);
 		txtAddress.setEditable(e);
-		txtTel.setEditable(e);
-		
-		
+		txtTel.setEditable(e);	
 		txtRelationShip.setEditable(e);
 		comboGender.setEnabled(e);
 		txtBirthDay.setEditable(e);
