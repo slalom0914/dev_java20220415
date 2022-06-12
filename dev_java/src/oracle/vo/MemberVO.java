@@ -1,10 +1,20 @@
 package oracle.vo;
-// Lombok
+// Lombok - setter, getter 생략 - 자동
+// setter - 쓰기,  저장
+// getter  - 읽기 , 듣기
+// 외부에서의 위변조를 막기 위해서 이다.
+// getter, setter public함
+// 오라클 컬럼명과 VO전변 이름은 통일
+// 오라클 타입과 자바 타입은 맞춘다
+// 예외 발생 - 화면에서 입력 받는 값이 문자열 취급을 함
+// <input type="text">
 public class MemberVO {
 	private int    mem_no   =0;// 
 	private String mem_id   ="";// 
 	private String mem_pw   ="";// 
 	private String mem_name ="";// 
+	private String mem_zipcode = "";
+	private String mem_address = "";
 	int    mem_nos[] = new int[3];
 	String mem_ids[] = new String[3];
 	String mem_pws[] = new String[3];
@@ -42,6 +52,18 @@ public class MemberVO {
 	}
 	public void setMem_name(String mem_name) {
 		this.mem_name = mem_name;
+	}
+	public String getMem_zipcode() {
+		return mem_zipcode;
+	}
+	public void setMem_zipcode(String mem_zipcode) {
+		this.mem_zipcode = mem_zipcode;
+	}
+	public String getMem_address() {
+		return mem_address;
+	}
+	public void setMem_address(String mem_address) {
+		this.mem_address = mem_address;
 	}
 }
 /*
