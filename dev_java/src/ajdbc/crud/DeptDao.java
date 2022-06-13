@@ -1,10 +1,5 @@
 package ajdbc.crud;
 
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,59 +10,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 import address.view2.DBConnectionMgr;
 import oracle.vo.DeptVO;
-// 단일 상속의 단점을 보완하기 위해서 인터페이스를 제공하고 있다.
-// 인터페이스는 다중 처리 가능하다
-public class CRUDDept extends JFrame implements ActionListener, MouseListener{
-	// 선언부
+
+public class DeptDao {
+	DeptView deptView = null;
 	////////////////// DB연동 ///////////////////
 	DBConnectionMgr 	dbMgr 	= new DBConnectionMgr();
 	Connection 			con 	= null;// 연결통로
 	PreparedStatement 	pstmt 	= null;// DML구문 전달하고 오라클에게 요청
 	ResultSet 			rs		= null;// 조회경우 커서를 조작 필요
 	////////////////// DB연동 ///////////////////	
-	// JFrame의 디폴트 레이아웃은 BorderLayout
-	JPanel 		jp_north 	= new JPanel();// 디폴트레이아웃:FlowLayout
-	JButton 	jbtn_sel 	= new JButton("조회");
-	JButton 	jbtn_ins 	= new JButton("입력");
-	JButton 	jbtn_upd 	= new JButton("수정");
-	JButton 	jbtn_del 	= new JButton("삭제");
-	// 서로 의존관계에 있다. - 의존성 주입(인스턴스화-싱글톤패턴), 객체 주입법, annotion
-	String 		cols[] 		= {"부서번호","부서명","지역"};
-	String 		data[][] 	= new String[0][3];
-	DefaultTableModel dtm	= new DefaultTableModel(data,cols);
-	JTable		jtb			= new JTable(dtm);
-	JScrollPane jsp			= new JScrollPane(jtb);
-	JPanel 		jp_south 	= new JPanel();// 디폴트레이아웃:FlowLayout
-	// 테이블의 로우에 바인딩하기 - UI솔루션 기본 제공
-	JTextField 	jtf_deptno  = new JTextField("",10);
-	JTextField 	jtf_dname  	= new JTextField("",20);
-	JTextField 	jtf_loc  	= new JTextField("",20);
-	// 생성자
-	public CRUDDept() {
-		// 이벤트 소스와 이벤트 핸들러 매핑하기
-	    // 내가 이벤트 처리를 담당하는 핸들러 클래스 이다.
-		// ActionListener al = new CRUDDept();
-		// 선언부와 생성부의 클래스이름 다르다
-		// 다형성을 누릴 수 있다.
-		// 클래스 사이의 결합도를 낮출 수 있어서 단위 테스트가 가능한 구조가 된다.
-		// 생성부의 이름으로 생성된다는 것.
-		jbtn_sel.addActionListener(this);
-		jbtn_ins.addActionListener(this);
-		jbtn_upd.addActionListener(this);
-		jbtn_del.addActionListener(this);
-		jtb.addMouseListener(this);
-		initDisplay();
+	// 디폴트 생성자는 생성자가 하나도 없을 경우에만 제공됨
+	// 파라미터를 갖는 생성자가 하나라도 있으면 디폴트 생성자도 제공안됨
+	public DeptDao() {}
+	public DeptDao(DeptView deptView) {
+		this.deptView = deptView;
 	}
 	/*******************************************************************
 	 * 부서 등록 구현
@@ -105,9 +65,9 @@ public class CRUDDept extends JFrame implements ActionListener, MouseListener{
 			if(result == 1) {
 				deptSelectAll();
 				// 입력 성공 후에 화면에 대한 초기화 - 사용자의 편의성 제공
-				setDeptno(0);
-				setDname("");
-				setLoc("");
+				deptView.setDeptno(0);
+				deptView.setDname("");
+				deptView.setLoc("");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -142,7 +102,7 @@ public class CRUDDept extends JFrame implements ActionListener, MouseListener{
 			pstmt.setInt(i++, pdVO.getDeptno());
 			result = pstmt.executeUpdate();
 			if(result == 1) {
-				JOptionPane.showMessageDialog(this, "데이터가 수정 되었습니다.", "Info", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(deptView, "데이터가 수정 되었습니다.", "Info", JOptionPane.INFORMATION_MESSAGE);
 				deptSelectAll();// 새로고침 처리 메소드 호출하기 - 메소드 재사용성 - 반복되는 코드를 줄여 준다.
 			}			
 		} catch (Exception e) {
@@ -170,7 +130,7 @@ public class CRUDDept extends JFrame implements ActionListener, MouseListener{
 			pstmt.setInt(1, deptno);
 			result = pstmt.executeUpdate();
 			if(result == 1) {
-				JOptionPane.showMessageDialog(this, "데이터가 삭제되었습니다.", "Info", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(deptView, "데이터가 삭제되었습니다.", "Info", JOptionPane.INFORMATION_MESSAGE);
 				// 삭제된 후에 화면 갱신처리하기 - 동기화 처리 진행됨
 				// 입력, 수정, 삭제에서 반복적으로 호출 될 수 있다.
 				// List<VO>, List<Map>
@@ -207,9 +167,9 @@ public class CRUDDept extends JFrame implements ActionListener, MouseListener{
 			}
 			//System.out.println(deptList);
 			//기존에 조회된 결과 즉 목록을 삭제하기
-			while(dtm.getRowCount() > 0) {
+			while(deptView.dtm.getRowCount() > 0) {
 			// 파라미터에 0을 주어서 테이블의 인덱스가 바뀌는 문제를 해결함	
-				dtm.removeRow(0);
+				deptView.dtm.removeRow(0);
 			}
 			// Iterator는 자료구조가 갖고 있는 정보의 유무를 체크하는데 필요한 메소드를 제공하고 있다.
 			Iterator<Map<String,Object>> iter = deptList.iterator();
@@ -222,7 +182,7 @@ public class CRUDDept extends JFrame implements ActionListener, MouseListener{
 				oneRow.add(data.get(keys[1]));
 				oneRow.add(data.get(keys[0]));
 				// 데이터셋인 DefaultTableModel에 조회 결과  담기 - 반복처리함 => 10, 20, 30, 40
-				dtm.addRow(oneRow);
+				deptView.dtm.addRow(oneRow);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -256,9 +216,9 @@ public class CRUDDept extends JFrame implements ActionListener, MouseListener{
 				rdVO.setLoc(rs.getString("loc"));
 			}
 			if(rdVO !=null) {
-				setDeptno(rdVO.getDeptno());
-				setDname(rdVO.getDname());
-				setLoc(rdVO.getLoc());
+				deptView.setDeptno(rdVO.getDeptno());
+				deptView.setDname(rdVO.getDname());
+				deptView.setLoc(rdVO.getLoc());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -266,116 +226,5 @@ public class CRUDDept extends JFrame implements ActionListener, MouseListener{
 			DBConnectionMgr.freeConnection(rs, pstmt, con);
 		}
 		return rdVO;
-	}
-	
-	
-	
-	// 화면 처리부
-	public void initDisplay() {
-		jp_north.setLayout(new FlowLayout(FlowLayout.LEFT));
-		jp_north.add(jbtn_sel);
-		jp_north.add(jbtn_ins);
-		jp_north.add(jbtn_upd);
-		jp_north.add(jbtn_del);
-		jp_south.add(jtf_deptno);
-		jp_south.add(jtf_dname);
-		jp_south.add(jtf_loc);
-		this.add("North", jp_north);
-		this.add("Center",jsp);
-		this.add("South", jp_south);
-		this.setTitle("부서관리시스템");
-		this.setSize(600, 400);
-		this.setVisible(true);
-	}
-	// 메인 메소드
-	public static void main(String[] args) {
-		new CRUDDept();
-	}
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object obj = e.getSource();
-		// 너 조회 누른거야?
-		if(obj == jbtn_sel) {
-			System.out.println("전체조회 호출 성공");
-			deptSelectAll();
-		}
-		//입력하고 싶니?
-		else if(obj == jbtn_ins) {
-			System.out.println("입력 호출 성공");
-			String deptno = getDeptno();
-			String dname = getDname();
-			String loc = getLoc();
-			//System.out.println(deptno+", "+dname+", "+loc);
-			DeptVO pdVO = new DeptVO();
-			pdVO.setDeptno(Integer.parseInt(deptno));
-			pdVO.setDname(dname);
-			pdVO.setLoc(loc);
-			deptInsert(pdVO);
-		}
-		//수정할거야?
-		else if(obj == jbtn_upd) {
-			System.out.println("수정 호출 성공");
-			String deptno = getDeptno();
-			String dname = getDname();
-			String loc = getLoc();
-			DeptVO pdVO = new DeptVO();
-			pdVO.setDeptno(Integer.parseInt(deptno));
-			pdVO.setDname(dname);
-			pdVO.setLoc(loc);			
-			deptUpdate(pdVO);
-		}
-		//삭제를 원해? - view -> action(delete) -> action(select all) -> view
-		else if(obj == jbtn_del) {
-			System.out.println("삭제 호출 성공");
-			int index[] = jtb.getSelectedRows();
-			if(index.length == 0) {
-				JOptionPane.showMessageDialog(this, "삭제할 데이터를 선택하세요....", "Error", JOptionPane.ERROR_MESSAGE);
-				return;
-			}else {
-				Integer deptno = (Integer)dtm.getValueAt(index[0], 0);
-				System.out.println("사용자가 선택한 부서번호 : "+deptno);
-				deptDelete(deptno);
-			}
-			
-		}
-	}////////////////end of actionPerformed
-	// 각 컬럼의 값들을 설정하거나 읽어오는 getter/setter메소드 
-	public String getDeptno() { return jtf_deptno.getText(); }
-	public void setDeptno(int deptno) { jtf_deptno.setText(String.valueOf(deptno)); }
-	public String getDname() { return jtf_dname.getText(); }
-	public void setDname(String dname) { jtf_dname.setText(dname); }
-	public String getLoc() { return jtf_loc.getText(); }
-	public void setLoc(String loc) { jtf_loc.setText(loc); }
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		int index[] = jtb.getSelectedRows();
-		// 테이블의 데이터를 선택하지 않은 경우
-		if(index.length == 0) {
-			JOptionPane.showMessageDialog(this,"조회할 데이터를 선택하시오.","Error", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		int udeptno = 0;
-		udeptno = Integer.parseInt(dtm.getValueAt(index[0], 0).toString());
-		deptSelectDetail(udeptno);
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	}	
 }

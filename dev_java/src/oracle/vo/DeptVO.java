@@ -7,6 +7,11 @@ public class DeptVO {
 	private int    deptno =0;// 부서번호
 	private String dname  ="";// 부서명
 	private String loc    ="";// 지역
+	// dept테이블에 있는 컬럼은 아니지만 MVC패턴 적용시
+	// 사용자의 요청을 분기하는 목적으로 필요한 변수 이다.
+	private String command = "";
+	// 오라클 서버에 입력,수정,삭제 요청 후 돌려받는 값 담기
+	private int	   result  = 0;
 	public int getDeptno() {
 		return deptno;
 	}
@@ -24,5 +29,17 @@ public class DeptVO {
 	}
 	public void setLoc(String loc) {
 		this.loc = loc;
+	}
+	public String getCommand() {
+		return command;
+	}
+	public void setCommand(String command) {
+		this.command = command;
+	}
+	public int getResult() {
+		return result;
+	}
+	public void setResult(int result) {
+		this.result = result;
 	}
 }
