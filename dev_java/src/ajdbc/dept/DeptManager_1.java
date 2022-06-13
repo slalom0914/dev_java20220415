@@ -102,6 +102,16 @@ public class DeptManager_1 extends JFrame implements ActionListener, MouseListen
 		}
 		else if("삭제".equals(command)) {
 			System.out.println("삭제 호출 성공");
+			int index[] = jtb.getSelectedRows();
+			if (index.length == 0) {
+				JOptionPane.showMessageDialog(this, "삭제할 데이터를 선택하세요...", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			} else {
+				Integer id = (Integer)dtm.getValueAt(index[0], 0);
+				System.out.println("id : "+id);
+				deptDelete(id);
+			}
+			
 		}
 	}
 	public int deptInsert(String deptno, String dname, String loc) {
@@ -119,6 +129,26 @@ public class DeptManager_1 extends JFrame implements ActionListener, MouseListen
 			result = pstmt.executeUpdate();
 			if(result == 1) {
 				JOptionPane.showMessageDialog(this,"데이터가 입력 되었습니다.","Info" ,JOptionPane.INFORMATION_MESSAGE);				
+				getDeptList();
+			}
+			DBConnectionMgr.freeConnection(pstmt, con);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+	public int deptDelete(int deptno) {
+		int result = 0;
+		StringBuilder sql = new StringBuilder();
+		sql.append("DELETE FROM dept");
+		sql.append(" WHERE deptno=?");
+		try {
+			con = dbMgr.getConnection();
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setInt(1, deptno);
+			result = pstmt.executeUpdate();
+			if(result == 1) {
+				JOptionPane.showMessageDialog(this,"데이터가 삭제되었습니다.","Info" ,JOptionPane.INFORMATION_MESSAGE);				
 				getDeptList();
 			}
 			DBConnectionMgr.freeConnection(pstmt, con);
