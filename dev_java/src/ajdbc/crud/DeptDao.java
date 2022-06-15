@@ -49,6 +49,17 @@ public class DeptDao {
 		// 왜 생성한 역순인가? - 의존관계에 있다. Connection, PreparedStatement, ResultSet - 자바성능 튜닝 가이드
 		try {
 			con = dbMgr.getConnection();
+			// 생략이 가능하다
+			// false이면 커밋이 안된다.
+			// 굳이 저렇게 해야 하는 경우가 있나? throw new Exception()
+			// false이면 커밋하지 말고 기다려?
+			// con.setAutoCommit(false);
+			// int result1 = XXX.masterInsert();
+			// result = 1
+			// int result2 = XXX.detailInsert();
+			// result = 1
+			// if(result1==1 && result2==1) con.commit(); //트랜잭션처리
+			con.setAutoCommit(true);
 			pstmt = con.prepareStatement(sql.toString());
 			// 동적쿼리를 처리하는 PreparedStatement에서 ?자리에 필요한 파라미터를 적용하는데 
 			// 테이블 설계가 바뀌거나 컬럼이 추가되는 경우를 예측하여 최소한 코드 변경이 되도록 변수를

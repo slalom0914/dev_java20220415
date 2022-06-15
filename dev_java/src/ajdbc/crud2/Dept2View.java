@@ -98,21 +98,25 @@ public class Dept2View extends JFrame implements ActionListener, MouseListener{
 		if(obj == jbtn_sel) {
 			System.out.println("전체조회 호출 성공");
 			// insert here
+			
 		}
 		//입력하고 싶니?
 		else if(obj == jbtn_ins) {
 			System.out.println("입력 호출 성공");
 			// insert here
+			
 		}
 		//수정할거야?
 		else if(obj == jbtn_upd) {
 			System.out.println("수정 호출 성공");
 			// insert here
+			
 		}
 		//삭제를 원해? - view -> action(delete) -> action(select all) -> view
 		else if(obj == jbtn_del) {
 			System.out.println("삭제 호출 성공");
 			// insert here
+			
 		}
 		
 	}

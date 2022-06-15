@@ -66,8 +66,18 @@ public class DeptView extends JFrame implements ActionListener, MouseListener{
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		int index[] = jtb.getSelectedRows();
+		// 테이블의 데이터를 선택하지 않은 경우
+		if(index.length == 0) {
+			JOptionPane.showMessageDialog(this,"조회할 데이터를 선택하시오.","Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		int udeptno = 0;
+		udeptno = Integer.parseInt(dtm.getValueAt(index[0], 0).toString());
+		DeptVO pdVO = new DeptVO();
+		pdVO.setCommand("select");
+		pdVO.setDeptno(udeptno);
+		deptCtrl.send(pdVO);
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

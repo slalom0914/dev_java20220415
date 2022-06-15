@@ -43,7 +43,7 @@ public class Dept2Controller {
 		// 부서 정보 수정 누른거야?
 		else if(_UPD.equals(command)) {
 			// insert here
-			System.out.println("부서 정보 수정 누른거야?");			
+			System.out.println("부서 정보 수정 누른거야?");			 
 		}
 		// 부서 정보 상세보기 원해?
 		else if(_SEL.equals(command)) {
