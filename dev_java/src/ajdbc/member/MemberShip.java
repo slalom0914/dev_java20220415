@@ -52,10 +52,16 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 		int result = 0;
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO member(mem_no,mem_id,mem_pw,mem_name,mem_zipcode,mem_address)");
-		sql.append("VALUES(4,'nice','123','이순신','12345','서울시 마포구 공덕동')");
+		sql.append("VALUES(seq_member_no.nextval,?,?,?,?,?)");
 		try {
 			con = dbMgr.getConnection();
 			pstmt = con.prepareStatement(sql.toString());
+			int i = 0;
+			pstmt.setString(++i, pmVO.getMem_id());
+			pstmt.setString(++i, pmVO.getMem_pw());
+			pstmt.setString(++i, pmVO.getMem_name());
+			pstmt.setString(++i, pmVO.getMem_zipcode());
+			pstmt.setString(++i, pmVO.getMem_address());
 			result = pstmt.executeUpdate();
 			System.out.println("result : "+result);
 		} catch (Exception e) {
@@ -114,6 +120,7 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 		jbtn_signup.setEnabled(false);
 		// 이벤트 소스와 이벤트처리 핸들러 클래스 연결하기
 		jbtn_idcheck.addActionListener(this);
+		jbtn_signup.addActionListener(this);
 		jp_center.setLayout(null);
 		jlb_id.setBounds(20, 20, 100, 20);
 		jtf_id.setBounds(120, 20, 100, 20);
@@ -181,8 +188,22 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
+		if(obj == jbtn_signup) {
+			MemberVO pmVO = new MemberVO();
+			pmVO.setMem_id(getId());
+			pmVO.setMem_pw(getPw());
+			pmVO.setMem_name(getName());
+			pmVO.setMem_zipcode(getZipcode());
+			pmVO.setMem_address(getAddress());
+			int result = memberInsert(pmVO);
+			if(result == 1) {
+				System.out.println("result ===> " + result);
+				// insert here - 회원가입 성공 후 MemberApp클래스의 새로고침 메소드 호출하기
+				
+			}
+		}
 		// 너 아이디 중복체크 하려구?
-		if(obj == jbtn_idcheck) {
+		else if(obj == jbtn_idcheck) {
 			boolean isOk = idCheck(getId());
 			System.out.println("ID중복체크 호출");
 			if(isOk) {
@@ -195,13 +216,12 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 				jbtn_signup.setEnabled(isOk);
 				
 			}
-		}
+		} 
 
 	}
 	// 각 컬럼의 값들을 설정하거나 읽어오는 getter/setter메소드 
 	public String getId() { return jtf_id.getText(); }
 	public void setId(String mem_id) { jtf_id.setText(mem_id); }
-	/*
 	public String getPw() { return jtf_pw.getText(); }
 	public void setPw(String mem_pw) { jtf_pw.setText(mem_pw); }
 	public String getName() { return jtf_name.getText(); }
@@ -210,7 +230,7 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 	public void setZipcode(String mem_zipcode) { jtf_zipcode.setText(mem_zipcode); }
 	public String getAddress() { return jtf_address.getText(); }
 	public void setAddress(String mem_address) { jtf_address.setText(mem_address); }
-	*/
+
 	public static void main(String[] args) {
 		new MemberShip();
 	}
