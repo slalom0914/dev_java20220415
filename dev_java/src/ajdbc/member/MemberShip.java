@@ -44,9 +44,13 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 	PreparedStatement 	pstmt 	= null;// DML구문 전달하고 오라클에게 요청
 	ResultSet 			rs		= null;// 조회경우 커서를 조작 필요
 	////////////////// DB연동 ///////////////////	
+	MemberApp memberApp = null;
 	// 생성자
 	public MemberShip() {
-		initDisplay();
+		//initDisplay();
+	}
+	public MemberShip(MemberApp memberApp) {
+		this.memberApp = memberApp;
 	}
 	public int memberInsert(MemberVO pmVO) {
 		int result = 0;
@@ -199,6 +203,8 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 			if(result == 1) {
 				System.out.println("result ===> " + result);
 				// insert here - 회원가입 성공 후 MemberApp클래스의 새로고침 메소드 호출하기
+				
+				memberApp.refreshData();
 				
 			}
 		}

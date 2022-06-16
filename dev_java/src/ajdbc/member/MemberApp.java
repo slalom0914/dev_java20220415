@@ -38,7 +38,7 @@ public class MemberApp extends JFrame implements ActionListener, MouseListener {
 	JButton jbtn_upd = new JButton("수정");
 	JButton jbtn_del = new JButton("삭제");
 	String cols[] = {"번호","아이디","이름","주소"};
-	String data[][] = new String[3][4];
+	String data[][] = new String[0][4];
 	DefaultTableModel dtm = new DefaultTableModel(data,cols);
 	JTable			  jtb = new JTable(dtm);
 	Font			  font = new Font("돋움체",Font.BOLD,18);
@@ -47,10 +47,26 @@ public class MemberApp extends JFrame implements ActionListener, MouseListener {
 	Connection		  con	= null;
 	PreparedStatement pstmt = null;
 	ResultSet 		  rs	= null;
+	MemberShip		  ms	= new MemberShip(this);
 	public MemberApp() {
+		// 이벤트 소스와 이벤트 처리 클래스를 매핑
 		jbtn_sel.addActionListener(this);
+		jbtn_ins.addActionListener(this);
+		jbtn_upd.addActionListener(this);
+		jbtn_del.addActionListener(this);
 		initDisplay();
 		refreshData();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		if(obj == jbtn_ins) {
+			ms.initDisplay();
+		}
+		else if(obj == jbtn_sel) {
+			refreshData();
+		}
+
 	}
 	public void refreshData() {
 		
@@ -75,7 +91,11 @@ public class MemberApp extends JFrame implements ActionListener, MouseListener {
 	    		memList.add(rmap);
 	    	}
 	    	// insert here
-	    	System.out.println(memList);
+	    	//System.out.println(memList);
+	    	// 기존에 조회된 결과 즉 목록 삭제하기
+	    	while(dtm.getRowCount() > 0 ) {
+	    		dtm.removeRow(0);
+	    	}
 	    	// Iterator는 자료구조가 갖고 있는 정보의 유무를 체크하는데 필요한 메소드를 제공하고 있다.
 	    	Iterator<Map<String,Object>> iter = memList.iterator();
 	    	Object keys[] = null;
@@ -150,14 +170,7 @@ public class MemberApp extends JFrame implements ActionListener, MouseListener {
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object obj = e.getSource();
-		if(obj == jbtn_sel) {
-			refreshData();
-		}
 
-	}
 
 	public static void main(String[] args) {
 		new MemberApp();
