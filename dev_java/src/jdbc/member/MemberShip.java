@@ -24,27 +24,27 @@ import address.view2.DBConnectionMgr;
 
 public class MemberShip extends JDialog implements ActionListener {
 	// 입력, 수정, 조회 화면에 사용할 컴포넌트를 선언합니다.
-	private JLabel jlb_id;
-	private JTextField jtf_id;
-	private JButton jbtn_idcheck;
-	private JLabel jlb_pw;
-	private JTextField jtf_pw;
-	private JLabel jlb_name;
-	private JTextField jtf_name;
-	private JLabel jlb_zipcode;
-	private JTextField jtf_zipcode;
-	private JButton jbtn_zipcode;
-	private JLabel jlb_address;
-	private JTextField jtf_address;
-	private JScrollPane scrollPane;
-	private JPanel panel;
-	private JPanel panelBtn;
-	private Font font;
+	JLabel jlb_id;
+	JTextField jtf_id;
+	JButton jbtn_idcheck;
+	JLabel jlb_pw;
+	JTextField jtf_pw;
+	JLabel jlb_name;
+	JTextField jtf_name;
+	JLabel jlb_zipcode;
+	JTextField jtf_zipcode = new JTextField(20);
+	JButton jbtn_zipcode;
+	JLabel jlb_address;
+	JTextField jtf_address = new JTextField(20);
+	JScrollPane scrollPane;
+	JPanel panel;
+	JPanel panelBtn;
+	Font font;
 
-	private String title;
+	String title;
 
-	private JButton jbtn_signup;
-	private JButton btnCancel;
+	JButton jbtn_signup;
+	JButton btnCancel;
 	////////////////// DB연동 ///////////////////
 	DBConnectionMgr 	dbMgr 	= new DBConnectionMgr();
 	Connection 			con 	= null;// 연결통로
@@ -54,7 +54,7 @@ public class MemberShip extends JDialog implements ActionListener {
 	MemberManager main = null;
 	MemberVO mvo = null;
 	public MemberShip() {
-		initDisplay();
+		//initDisplay();
 	}
 	// 타이틀, 수정여부, Value Object를 받아서 윈도우를 설정합니다.
 	public void set(String title, boolean editable, MemberVO mvo, MemberManager main) {
@@ -112,7 +112,7 @@ public class MemberShip extends JDialog implements ActionListener {
 			if(result == 1) {
 				JOptionPane.showMessageDialog(this, "회원가입 성공","INFO", JOptionPane.INFORMATION_MESSAGE);
 				this.dispose();
-				main.refreshData();
+				//main.refreshData();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,9 +145,8 @@ public class MemberShip extends JDialog implements ActionListener {
 		jbtn_idcheck.addActionListener(this);
 		jtf_pw = new JTextField(20);
 		jtf_name = new JTextField(20);
-		jtf_zipcode = new JTextField(20);
 		jbtn_zipcode = new JButton("우편번호찾기");
-		jtf_address = new JTextField(20);
+		jbtn_zipcode.addActionListener(this);
 
 
 		// 버튼을 정의합니다.
@@ -215,7 +214,7 @@ public class MemberShip extends JDialog implements ActionListener {
 		getContentPane().add(panelBtn, BorderLayout.SOUTH);
 
 		setSize(430,400);		
-		//setVisible(true);
+		setVisible(true);
 	}
 	public static void main(String[] args) {
 		new MemberShip();
@@ -223,7 +222,11 @@ public class MemberShip extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if(obj == jbtn_signup) {
+		if(obj == jbtn_zipcode) {
+			ZipCodeSearch zcs = new ZipCodeSearch(this);
+			zcs.initDisplay();
+		}
+		else if(obj == jbtn_signup) {
 			MemberVO mvo = new MemberVO();
 			mvo.setCommand("insert");
 			mvo.setMem_id(getId());
