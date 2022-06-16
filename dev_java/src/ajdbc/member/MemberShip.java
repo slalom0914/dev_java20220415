@@ -123,6 +123,7 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 		//처음 화면이 열렸을 때는 아이디 중복검사가 되지 않았으니까 회원가입 버튼 비활성화
 		jbtn_signup.setEnabled(false);
 		// 이벤트 소스와 이벤트처리 핸들러 클래스 연결하기
+		jbtn_zipcode.addActionListener(this);
 		jbtn_idcheck.addActionListener(this);
 		jbtn_signup.addActionListener(this);
 		jp_center.setLayout(null);
@@ -192,7 +193,11 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if(obj == jbtn_signup) {
+		if(obj == jbtn_zipcode) {
+			ZipcodeSearch zs = new ZipcodeSearch(this);
+			zs.initDisplay();
+		}
+		else if(obj == jbtn_signup) {
 			MemberVO pmVO = new MemberVO();
 			pmVO.setMem_id(getId());
 			pmVO.setMem_pw(getPw());
@@ -203,7 +208,8 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 			if(result == 1) {
 				System.out.println("result ===> " + result);
 				// insert here - 회원가입 성공 후 MemberApp클래스의 새로고침 메소드 호출하기
-				
+				//가입성공이 되면 가입화면은 닫아주세요
+				this.dispose();
 				memberApp.refreshData();
 				
 			}
@@ -224,7 +230,7 @@ public class MemberShip extends JFrame implements ActionListener, MouseListener 
 			}
 		} 
 
-	}
+	}///////////// end of actionPerformed
 	// 각 컬럼의 값들을 설정하거나 읽어오는 getter/setter메소드 
 	public String getId() { return jtf_id.getText(); }
 	public void setId(String mem_id) { jtf_id.setText(mem_id); }
