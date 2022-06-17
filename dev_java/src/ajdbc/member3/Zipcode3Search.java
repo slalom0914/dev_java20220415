@@ -1,4 +1,4 @@
-package ajdbc.member2;
+package ajdbc.member3;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -31,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
 
 import address.view2.DBConnectionMgr;
 
-public class Zipcode2Search extends JFrame 
+public class Zipcode3Search extends JFrame 
 implements FocusListener, ActionListener, MouseListener {
 	// 선언부
 	JPanel jp_north = new JPanel();
@@ -49,10 +49,10 @@ implements FocusListener, ActionListener, MouseListener {
 	Connection		  con	= null;
 	PreparedStatement pstmt = null;
 	ResultSet 		  rs	= null;
-	Member2Ship 		  ms    = null;
+	Member3Ship 		  ms    = null;
 	// 생성자
-	public Zipcode2Search() {}
-	public Zipcode2Search(Member2Ship ms) {
+	public Zipcode3Search() {}
+	public Zipcode3Search(Member3Ship ms) {
 		this.ms = ms;
 	}
 	// 화면처리부
@@ -108,7 +108,7 @@ implements FocusListener, ActionListener, MouseListener {
 	}
 	// 메인 메소드
 	public static void main(String[] args) {
-		Zipcode2Search zc = new Zipcode2Search();
+		Zipcode3Search zc = new Zipcode3Search();
 		zc.initDisplay();
 	}
 	@Override

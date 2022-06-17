@@ -1,4 +1,4 @@
-package ajdbc.member2;
+package ajdbc.member3;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import address.view2.DBConnectionMgr;
 import oracle.vo.MemberVO;
 
-public class Member2Ship extends JFrame implements ActionListener, MouseListener {
+public class Member3Ship extends JFrame implements ActionListener, MouseListener {
 	// 선언부
 	JPanel      jp_center		= new JPanel();
 	JLabel 		jlb_id 			= new JLabel("아이디 ");
@@ -44,12 +44,12 @@ public class Member2Ship extends JFrame implements ActionListener, MouseListener
 	PreparedStatement 	pstmt 	= null;// DML구문 전달하고 오라클에게 요청
 	ResultSet 			rs		= null;// 조회경우 커서를 조작 필요
 	////////////////// DB연동 ///////////////////	
-	Member2App memberApp = null;
+	Member3App memberApp = null;
 	// 생성자
-	public Member2Ship() {
+	public Member3Ship() {
 		//initDisplay();
 	}
-	public Member2Ship(Member2App memberApp) {
+	public Member3Ship(Member3App memberApp) {
 		this.memberApp = memberApp;
 	}
 	public int memberInsert(MemberVO pmVO) {
@@ -194,7 +194,7 @@ public class Member2Ship extends JFrame implements ActionListener, MouseListener
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if(obj == jbtn_zipcode) {
-			Zipcode2Search zs = new Zipcode2Search(this);
+			Zipcode3Search zs = new Zipcode3Search(this);
 			zs.initDisplay();
 		}
 		else if(obj == jbtn_signup) {
@@ -246,7 +246,7 @@ public class Member2Ship extends JFrame implements ActionListener, MouseListener
 	public void setAddress(String mem_address) { jtf_address.setText(mem_address); }
 
 	public static void main(String[] args) {
-		new Member2Ship();
+		new Member3Ship();
 	}
 
 }
