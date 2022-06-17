@@ -38,12 +38,7 @@ public class Member3Ship extends JFrame implements ActionListener, MouseListener
 	JPanel 		jp_south		= new JPanel();
 	JButton		jbtn_signup		= new JButton("회원가입");
 	JButton		jbtn_cancel		= new JButton("취소");
-	////////////////// DB연동 ///////////////////
-	DBConnectionMgr 	dbMgr 	= new DBConnectionMgr();
-	Connection 			con 	= null;// 연결통로
-	PreparedStatement 	pstmt 	= null;// DML구문 전달하고 오라클에게 요청
-	ResultSet 			rs		= null;// 조회경우 커서를 조작 필요
-	////////////////// DB연동 ///////////////////	
+
 	Member3App memberApp = null;
 	// 생성자
 	public Member3Ship() {
@@ -52,71 +47,8 @@ public class Member3Ship extends JFrame implements ActionListener, MouseListener
 	public Member3Ship(Member3App memberApp) {
 		this.memberApp = memberApp;
 	}
-	public int memberInsert(MemberVO pmVO) {
-		int result = 0;
-		StringBuilder sql = new StringBuilder();
-		sql.append("INSERT INTO member(mem_no,mem_id,mem_pw,mem_name,mem_zipcode,mem_address)");
-		sql.append("VALUES(seq_member_no.nextval,?,?,?,?,?)");
-		try {
-			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(sql.toString());
-			int i = 0;
-			pstmt.setString(++i, pmVO.getMem_id());
-			pstmt.setString(++i, pmVO.getMem_pw());
-			pstmt.setString(++i, pmVO.getMem_name());
-			pstmt.setString(++i, pmVO.getMem_zipcode());
-			pstmt.setString(++i, pmVO.getMem_address());
-			result = pstmt.executeUpdate();
-			System.out.println("result : "+result);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			DBConnectionMgr.freeConnection(pstmt, con);
-		}
-		return result;
-	}
-	/*************************************************************************
-	 * 아이디 중복체크 구현하기
-	 * @param 사용자가 입력한 아이디
-	 * @return boolean
-	 * 만일 boolean을 선택했다면 false이면 사용할 수 없다.  true이면 사용할 수 있다.
-	 * 만일 boolean을 선택했다면 false이면 사용할 수 있다.  true이면 사용할 수 없다.
-	SELECT 1
-	  FROM dual
-	 WHERE EXISTS (SELECT mem_name
-	                 FROM member
-	                WHERE mem_id ='tomato') 
-	 질문 1: tomato가 존재하는데 false가 뜹니다. 뭐가 문제인가요?
-	 질문 2: java.sql.SQLException: 인덱스에서 누락된 IN 또는 OUT 매개변수:: 1 일때
-	        ?자리에 들어갈 값을 치환하지 않은 경우
-	 질문 3: 토드에서 사용한 변수를 그대로 사용한 경우 반드시 ?로 바꾸어 쓸 것.
-	 질문 4: java.sql.SQLSyntaxErrorException: ORA-00911: 문자가 부적합합니다
-	       쿼리문 뒤에 세미콜론을 붙인 경우에 발생하는 오류 입니다.                       
-	*************************************************************************/                
-	public boolean idCheck(String user_id) {
-		boolean isOk = false;
-		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT 1                               ");
-		sql.append("  FROM dual                            ");
-		sql.append(" WHERE EXISTS (SELECT mem_name         ");
-		sql.append("                 FROM member           ");
-		sql.append("                WHERE mem_id =?)"); 	
-		try {
-			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, user_id);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				isOk = true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			// 사용한 자원 반드시 반납할 것. - 자바 튜닝팀 지적사항
-			DBConnectionMgr.freeConnection(rs, pstmt, con);
-		}
-		return isOk;
-	}///////////////////////// end of idCheck
+
+
 
 	// 화면 처리부
 	public void initDisplay() {
@@ -198,13 +130,16 @@ public class Member3Ship extends JFrame implements ActionListener, MouseListener
 			zs.initDisplay();
 		}
 		else if(obj == jbtn_signup) {
-			MemberVO pmVO = new MemberVO();
+			Member3VO pmVO = new Member3VO();
+			pmVO.setCommand("membership");
 			pmVO.setMem_id(getId());
 			pmVO.setMem_pw(getPw());
 			pmVO.setMem_name(getName());
 			pmVO.setMem_zipcode(getZipcode());
 			pmVO.setMem_address(getAddress());
-			int result = memberInsert(pmVO);
+			MemberController memCtrl = new MemberController(pmVO);
+			memCtrl.action();
+			int result = pmVO.getResult();
 			if(result == 1) {
 				System.out.println("result ===> " + result);
 				// insert here - 회원가입 성공 후 MemberApp클래스의 새로고침 메소드 호출하기
@@ -218,7 +153,8 @@ public class Member3Ship extends JFrame implements ActionListener, MouseListener
 		}
 		// 너 아이디 중복체크 하려구?
 		else if(obj == jbtn_idcheck) {
-			boolean isOk = idCheck(getId());
+			boolean isOk = false;
+			//boolean isOk = idCheck(getId());
 			System.out.println("ID중복체크 호출");
 			if(isOk) {
 				JOptionPane.showMessageDialog(this, "사용할 수 없는 아이디 입니다.","ERROR",JOptionPane.ERROR_MESSAGE);

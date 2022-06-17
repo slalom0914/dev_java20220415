@@ -8,6 +8,7 @@ public class Member3VO {
 	private String mem_zipcode = null;// 
 	private String mem_address = null;// 
 	private String command 	   = null;
+	private int    result	   = 0;//1이면 입력|수정|삭제 성공 0이면 실패
 	public int getMem_no() {
 		return mem_no;
 	}
@@ -49,5 +50,11 @@ public class Member3VO {
 	}
 	public void setCommand(String command) {
 		this.command = command;
+	}
+	public int getResult() {
+		return result;
+	}
+	public void setResult(int result) {
+		this.result = result;
 	}
 }

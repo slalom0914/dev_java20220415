@@ -22,9 +22,10 @@ public class MemberController {
 			String mem_name = null;
 			mem_name = loginDao.login("사용자가 입력한 아이디","사용자가 입력한 비번");
 		}else if(_SIGNUP.equals(command)) {
+			System.out.println("MemberController - 회원가입 호출 성공");
 			MemberDao memDao = new MemberDao();
 			int result = 0;
-			result = memDao.memberInsert();
+			result = memDao.memberInsert(mVO);
 		}else if(_IDCHECK.equals(command)) {
 			LoginDao loginDao = new LoginDao();
 			boolean isOk = loginDao.idCheck("사용자가 입력한 아이디값");
