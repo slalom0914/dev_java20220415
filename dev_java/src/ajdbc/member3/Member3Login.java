@@ -177,7 +177,13 @@ public class Member3Login extends JFrame implements ActionListener {
 			if(mem_name == null) {
 				JOptionPane.showMessageDialog(this, "회원가입 여부를 확인하세요");
 				return;
-			}else if(mem_name.length() > 2) {
+			}else if(mem_name.equals("0")) {
+				JOptionPane.showMessageDialog(this, "비밀번호 확인하세요");
+				return;
+			}else if(mem_name.equals("-1")) {
+				JOptionPane.showMessageDialog(this, "아이디가 존재하지 않습니다.");
+				return;
+			}else{
 				this.dispose();
 				new Member3App();
 			}
