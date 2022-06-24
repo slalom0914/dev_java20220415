@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/app/user1/product/11.1.0/db_1/jdbc/lib/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/user1/git/dev_java20220415/dev_java/gson-2.8.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
